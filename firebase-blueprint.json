@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "Represents an enquiry submitted through the Davidox Limited contact form",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 100, "description": "Client full name" },
+        "email": { "type": "string", "format": "email", "minLength": 5, "maxLength": 100, "description": "Client email" },
+        "phone": { "type": "string", "maxLength": 30, "description": "Optional client phone" },
+        "companyName": { "type": "string", "maxLength": 120, "description": "Optional company name" },
+        "subject": { "type": "string", "minLength": 2, "maxLength": 150, "description": "Subject of the message" },
+        "service": { "type": "string", "minLength": 2, "maxLength": 100, "description": "Service of interest" },
+        "message": { "type": "string", "minLength": 5, "maxLength": 4000, "description": "Full message content" },
+        "status": { "type": "string", "enum": ["new", "read", "replied", "archived"], "description": "Message status" },
+        "isRead": { "type": "boolean", "description": "Read indicator" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when submitted" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Timestamp when updated" }
+      },
+      "required": ["fullName", "email", "subject", "service", "message", "status", "isRead", "createdAt", "updatedAt"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Represents an authorized administrator for Davidox Limited management portal",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "description": "Admin email" },
+        "role": { "type": "string", "enum": ["admin", "superadmin"], "description": "Admin role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp created" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/contact_messages/{messageId}": {
+      "schema": "#/entities/ContactMessage",
+      "description": "Stores client enquiries submitted from the contact page"
+    },
+    "/admins/{adminId}": {
+      "schema": "#/entities/AdminUser",
+      "description": "Stores administrator authorization documents"
+    }
+  }
+}
